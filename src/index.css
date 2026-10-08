@@ -1,6 +1,5 @@
 /* Font imports must stay at the very top, above the Tailwind directives. */
-@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,7 +10,82 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-black text-white;
+    @apply bg-white font-sans text-ink antialiased;
     margin: 0;
   }
+  ::selection {
+    background: rgba(14, 116, 144, 0.2);
+  }
+}
+
+@layer components {
+  /* White card with the red -> teal accent line on top */
+  .card {
+    @apply relative overflow-hidden rounded-2xl bg-white shadow-card;
+  }
+  .card-accent::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, #e11d2f 0%, #e11d2f 22%, #0e7490 100%);
+  }
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-1 hover:shadow-lift;
+  }
+  /* small red-barred section label */
+  .eyebrow {
+    @apply flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-red;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+    background: #e11d2f;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full bg-brand-teal px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white;
+  }
+  .btn-red {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-red px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_rgba(225,29,47,0.7)] transition hover:bg-brand-deep;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-ink/15 bg-white/80 px-6 py-3 text-sm font-semibold text-ink backdrop-blur transition hover:border-brand-teal hover:text-brand-teal;
+  }
+  .grad-text {
+    color: #0e7490;
+  }
+}
+
+/* ---------- Halo backgrounds ---------- */
+@keyframes halo-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2%, -3%, 0) scale(1.08); }
+}
+@keyframes node-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+@keyframes wave-flow {
+  to { stroke-dashoffset: -400; }
+}
+.halo-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  animation: halo-drift 16s ease-in-out infinite;
+}
+.mesh-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 3.6s ease-in-out infinite;
+}
+.wave-line {
+  stroke-dasharray: 8 14;
+  animation: wave-flow 30s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .halo-orb, .mesh-node, .wave-line { animation: none; }
+  html { scroll-behavior: auto; }
 }

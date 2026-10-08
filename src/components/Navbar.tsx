@@ -1,124 +1,82 @@
-import { motion } from 'framer-motion'
-import { Facebook, Music2, Menu } from 'lucide-react'
-export function Navbar() {
+import { useState } from 'react'
+import { Headset, Menu, X } from 'lucide-react'
+import { routes, Link, type RouteId } from '../lib/router'
+import { site } from '../config'
+import { Logo } from './Logo'
+
+export function Navbar({ active }: { active: RouteId }) {
+  const [open, setOpen] = useState(false)
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/50 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center">
-            {/* Atom orbits */}
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: 'rotateX(70deg) rotateY(0deg)',
-              }}
-            >
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-                className="h-full w-full rounded-full border border-orange-500/80"
-              />
-            </div>
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: 'rotateX(70deg) rotateY(60deg)',
-              }}
-            >
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-                className="h-full w-full rounded-full border border-red-500/80"
-              />
-            </div>
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: 'rotateX(70deg) rotateY(120deg)',
-              }}
-            >
-              <motion.div
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-                className="h-full w-full rounded-full border border-orange-400/80"
-              />
-            </div>
-            {/* Center dot */}
-            <div className="h-2 w-2 rounded-full bg-gradient-to-tr from-orange-500 to-red-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
-          </div>
-          <span className="font-heading text-xl font-bold tracking-tight text-white">
-            AlbideyNet
-          </span>
-        </div>
+    <header className="sticky top-0 z-50 border-b border-white/60 bg-white/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-6">
+        <Link to="home" className="shrink-0">
+          <Logo />
+        </Link>
 
-        {/* Center Links */}
-        <div className="hidden items-center gap-8 lg:flex">
-          {[
-            'Home',
-            'Services',
-            'Devices',
-            'Coverage',
-            'Support',
-            'About Us',
-            'Contact',
-          ].map((link) => (
-            <a
-              key={link}
-              href={`#${link.toLowerCase().replace(' ', '-')}`}
-              className="group relative text-sm font-medium text-gray-400 transition-colors hover:text-white"
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
+          {routes.map((r) => (
+            <Link
+              key={r.id}
+              to={r.id}
+              className={`relative py-1 text-sm font-medium transition-colors ${
+                active === r.id ? 'text-ink' : 'text-ink/65 hover:text-ink'
+              }`}
             >
-              {link}
-              <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-400 transition-all group-hover:w-full" />
-            </a>
+              {r.label}
+              <span
+                className={`absolute -bottom-0.5 left-0 h-[2px] rounded bg-brand-red transition-all ${
+                  active === r.id ? 'w-full' : 'w-0'
+                }`}
+              />
+            </Link>
           ))}
-        </div>
+        </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-4">
-          <div className="hidden items-center gap-2 md:flex">
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label="Facebook"
-            >
-              <Facebook className="h-4 w-4" />
-            </button>
-            <button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label="TikTok"
-            >
-              <Music2 className="h-4 w-4" />
-            </button>
-          </div>
-          <button className="hidden rounded-full border border-white/20 bg-transparent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/10 md:block">
-            Account
-          </button>
-          <button
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 lg:hidden"
-            aria-label="Menu"
+        <div className="flex items-center gap-3">
+          <a
+            href={site.phoneHref}
+            className="hidden items-center gap-2 rounded-xl border border-white bg-white/70 px-3 py-1.5 shadow-sm md:flex"
           >
-            <Menu className="h-5 w-5" />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-teal/10 text-brand-teal">
+              <Headset className="h-4 w-4" />
+            </span>
+            <span className="leading-tight">
+              <span className="block text-[9px] font-semibold uppercase tracking-widest text-ink/50">Support 24/7</span>
+              <span className="block text-xs font-semibold">{site.phone}</span>
+            </span>
+          </a>
+          <Link to="contact" className="btn-red hidden !px-5 !py-2.5 sm:inline-flex">
+            Get a quote
+          </Link>
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 shadow-sm lg:hidden"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
-    </nav>
+
+      {open && (
+        <nav className="border-t border-white/60 bg-white/90 px-6 py-4 backdrop-blur-xl lg:hidden" aria-label="Mobile">
+          <ul className="flex flex-col gap-1">
+            {routes.map((r) => (
+              <li key={r.id} onClick={() => setOpen(false)}>
+                <Link
+                  to={r.id}
+                  className={`block rounded-lg px-3 py-2.5 text-sm font-medium ${
+                    active === r.id ? 'bg-brand-red/10 text-brand-red' : 'text-ink/80'
+                  }`}
+                >
+                  {r.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </header>
   )
 }

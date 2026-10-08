@@ -31,7 +31,7 @@ const itemVariants = {
 }
 export function Hero() {
   return (
-    <section className="relative min-h-[calc(100vh-5rem)] w-full overflow-hidden py-12 lg:py-20">
+    <section id="home" className="relative min-h-[calc(100vh-5rem)] w-full overflow-hidden py-12 lg:py-20">
       <FiberCables />
 
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:items-center">
@@ -70,7 +70,7 @@ export function Hero() {
           </motion.p>
 
           <motion.div variants={itemVariants}>
-            <button className="group relative overflow-hidden rounded-full bg-gradient-to-r from-cyan-400 to-teal-400 px-7 py-3.5 font-medium text-black transition-transform hover:scale-105">
+            <a href="#services" className="group relative inline-block overflow-hidden rounded-full bg-gradient-to-r from-cyan-400 to-teal-400 px-7 py-3.5 font-medium text-black transition-transform hover:scale-105">
               <span className="relative z-10 flex items-center gap-2">
                 Explore Services
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -87,7 +87,7 @@ export function Hero() {
                 }}
                 className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
               />
-            </button>
+            </a>
           </motion.div>
 
           <motion.div
@@ -148,9 +148,9 @@ export function Hero() {
                   Connect with NDjamena's leading institutions
                 </p>
               </div>
-              <button className="flex items-center gap-1 text-xs font-medium text-cyan-400 transition-colors hover:text-cyan-300 whitespace-nowrap">
+              <a href="#contact" className="flex items-center gap-1 text-xs font-medium text-cyan-400 transition-colors hover:text-cyan-300 whitespace-nowrap">
                 Get started <ArrowRight className="h-3 w-3" />
-              </button>
+              </a>
             </div>
           </div>
 
