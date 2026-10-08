@@ -29,7 +29,7 @@ export function useRoute(): RouteId {
   return route
 }
 
-export const href = (id: RouteId) => `#/${id}`
+export const href = (id: RouteId) => `#${id}`
 
 export function Link({
   to,
